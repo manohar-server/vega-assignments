@@ -63,8 +63,18 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public StudentDTO updateStudent(StudentDTO studentDTO) {
-		return null;
+	public StudentDTO updateStudent(String id, StudentDTO studentDTO) {
+		try {
+			long studentId = Long.parseLong(id);
+			StudentBO studentBO = this.studentRepository.findOne(studentId);
+			studentDTO.setId(studentId);
+			BeanUtils.copyProperties(studentDTO, studentBO);
+			studentRepository.save(studentBO);
+			return studentDTO;
+		} catch (Exception e) {
+			throw new StudentNotFoundException("Invalid Student Id");
+		}
+		
 	}
 
 	@Override
@@ -89,6 +99,20 @@ public class StudentServiceImpl implements StudentService {
 		}
 		studentDTO.setMarksDTOs(marksDTOs);
 		return studentDTO;
+	}
+
+	@Override
+	public StudentDTO deleteStudent(String id) {
+		try {
+			long studentId = Long.parseLong(id);
+			StudentBO studentBO = this.studentRepository.findOne(studentId);
+			StudentDTO studentDTO = new StudentDTO();
+			BeanUtils.copyProperties(studentBO, studentDTO);
+			this.studentRepository.delete(studentId);
+			return studentDTO;
+		} catch (Exception e) {
+			throw new StudentNotFoundException("Invalid Student Id");
+		}
 	}
 
 }

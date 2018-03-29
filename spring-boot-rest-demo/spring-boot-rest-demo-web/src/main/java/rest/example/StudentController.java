@@ -3,6 +3,7 @@ package rest.example;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,8 +47,13 @@ public class StudentController {
 		return this.studentService.registerStudent(studentDTO);
 	}
 	
-	@PutMapping(path = "students")
-	public StudentDTO updateStudent(StudentDTO studentDTO){
-		return this.studentService.updateStudent(studentDTO);
+	@PutMapping(path = "students/{id}")
+	public StudentDTO updateStudent(@PathVariable("id") String id, @RequestBody StudentDTO studentDTO){
+		return this.studentService.updateStudent(id, studentDTO);
+	}
+	
+	@DeleteMapping(path = "students/{id}")
+	public StudentDTO deleteStudent(@PathVariable("id") String id){
+		return this.studentService.deleteStudent(id);
 	}
 }
