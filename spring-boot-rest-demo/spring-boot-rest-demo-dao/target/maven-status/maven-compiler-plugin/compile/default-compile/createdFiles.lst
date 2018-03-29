@@ -1,0 +1,3 @@
+rest/example/entity/MarksBO.class
+rest/example/entity/StudentBO.class
+rest/example/dao/StudentRepository.class
